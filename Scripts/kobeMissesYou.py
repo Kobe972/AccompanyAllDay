@@ -136,23 +136,23 @@ class MyWidget(QWidget):
         else:
             pixmap.load("res/role1.png")
         pixmap = pixmap.scaled(60, 60)
-        painter.drawPixmap(0,int(current_minute/2)-30,pixmap)
+        painter.drawPixmap(0,int(current_minute/2),pixmap)
         pixmap=QPixmap()
         if self.status2[-1]["status"]=="想你":
             pixmap.load("res/miss.png")
         else:
             pixmap.load("res/role2.png")
         pixmap = pixmap.scaled(60, 60)
-        painter.drawPixmap(130,int(current_minute/2)-30,pixmap)
+        painter.drawPixmap(130,int(current_minute/2),pixmap)
 
         pen = QPen(Qt.black, 3)
         painter.setPen(pen)
 
         brush = QBrush(Qt.white)
         painter.setBrush(brush)
-        rect = QRect(60, 0, 30, 720)
+        rect = QRect(60, 30, 30, 720)
         painter.drawRect(rect)
-        rect = QRect(100, 0, 30, 720)
+        rect = QRect(100, 30, 30, 720)
         painter.drawRect(rect)
         pen = QPen(Qt.transparent, 3)
         painter.setPen(pen)
@@ -166,7 +166,7 @@ class MyWidget(QWidget):
             elif self.status1[i-1]["status"]=="学习":
                 brush = QBrush(Qt.blue)
                 painter.setBrush(brush)
-            rect = QRect(60, int(self.status1[i-1]["time"]/2), 30, int(self.status1[i]["time"]/2-self.status1[i-1]["time"]/2))
+            rect = QRect(60, 30+int(self.status1[i-1]["time"]/2), 30, int(self.status1[i]["time"]/2-self.status1[i-1]["time"]/2))
             painter.drawRect(rect)
         if self.status1[-1]["status"]=="想你":
             brush = QBrush(QColor(255, 192, 203))
@@ -177,8 +177,7 @@ class MyWidget(QWidget):
         elif self.status1[-1]["status"]=="学习":
             brush = QBrush(Qt.blue)
             painter.setBrush(brush)
-        current_minute=datetime.datetime.now().hour*60+datetime.datetime.now().minute
-        rect = QRect(60, int(self.status1[-1]["time"]/2), 30, int(current_minute/2-self.status1[-1]["time"]/2))
+        rect = QRect(60, 30+int(self.status1[-1]["time"]/2), 30, int(current_minute/2-self.status1[-1]["time"]/2))
         painter.drawRect(rect)
         for i in range(1,len(self.status2)):
             if self.status2[i-1]["status"]=="想你":
@@ -190,7 +189,7 @@ class MyWidget(QWidget):
             elif self.status2[i-1]["status"]=="学习":
                 brush = QBrush(Qt.blue)
                 painter.setBrush(brush)
-            rect = QRect(100, int(self.status2[i-1]["time"]/2), 30, int(self.status2[i]["time"]/2-self.status2[i-1]["time"]/2))
+            rect = QRect(100, 30+int(self.status2[i-1]["time"]/2), 30, int(self.status2[i]["time"]/2-self.status2[i-1]["time"]/2))
             painter.drawRect(rect)
         if self.status2[-1]["status"]=="想你":
             brush = QBrush(QColor(255, 192, 203))
@@ -201,7 +200,7 @@ class MyWidget(QWidget):
         elif self.status2[-1]["status"]=="学习":
             brush = QBrush(Qt.blue)
             painter.setBrush(brush)
-        rect = QRect(100, int(self.status2[-1]["time"]/2), 30, int(current_minute/2-self.status2[-1]["time"]/2))
+        rect = QRect(100, 30+int(self.status2[-1]["time"]/2), 30, int(current_minute/2-self.status2[-1]["time"]/2))
         painter.drawRect(rect)
                 
 while True:

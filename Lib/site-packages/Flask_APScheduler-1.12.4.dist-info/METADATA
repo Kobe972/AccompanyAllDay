@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: Flask-APScheduler
+Version: 1.12.4
+Summary: Adds APScheduler support to Flask
+Home-page: https://github.com/viniciuschiele/flask-apscheduler
+Author: Vinicius Chiele
+Author-email: vinicius.chiele@gmail.com
+License: Apache 2.0
+Keywords: apscheduler,scheduler,scheduling,cron
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: flask (>=0.10.1)
+Requires-Dist: apscheduler (<4.0.0,>=3.2.0)
+Requires-Dist: python-dateutil (>=2.4.2)
+
+=================================
+Flask-APScheduler
+=================================
+Flask-APScheduler is a Flask extension which adds support for the APScheduler.
+
+|Version| |Coverage| |CodeClimate| |Travis|
+
+Features
+===============
+- Loads scheduler configuration from Flask configuration.
+- Loads job definitions from Flask configuration.
+- Allows to specify the hostname which the scheduler will run on.
+- Provides a REST API to manage the scheduled jobs.
+- Provides authentication for the REST API.
+- Integrates with `Flask Blueprints <https://github.com/viniciuschiele/flask-apscheduler/tree/master/examples/application_factory>`_
+
+Installation
+===============
+You can install Flask-APScheduler via Python Package Index (PyPI_),::
+
+    pip install Flask-APScheduler
+
+
+
+Documentation
+===============
+
+`See Flask APSchedulers Documentation. <https://viniciuschiele.github.io/flask-apscheduler/>`_
+
+
+Feedback
+===============
+Please use the Issues_ for feature requests and troubleshooting usage.
+
+.. |Version| image:: https://img.shields.io/pypi/v/flask-apscheduler.svg
+   :target: https://pypi.python.org/pypi/Flask-APScheduler
+
+.. |Coverage| image:: https://codecov.io/github/viniciuschiele/flask-apscheduler/coverage.svg
+    :target: https://codecov.io/github/viniciuschiele/flask-apscheduler
+
+.. |Travis| image:: https://travis-ci.org/viniciuschiele/flask-apscheduler.svg
+    :target: https://travis-ci.org/viniciuschiele/flask-apscheduler
+
+.. |CodeClimate| image:: https://codeclimate.com/github/viniciuschiele/flask-apscheduler/badges/gpa.svg
+   :target: https://codeclimate.com/github/viniciuschiele/flask-apscheduler
+
+.. _examples: https://github.com/viniciuschiele/flask-apscheduler/tree/master/examples
+
+.. _PyPi: https://pypi.python.org/pypi/Flask-APScheduler
+
+.. _Issues: https://github.com/viniciuschiele/flask-apscheduler/issues
+
+.. _CommonIssues:
+

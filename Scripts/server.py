@@ -3,11 +3,16 @@ import datetime
 import json
 from werkzeug.utils import secure_filename
 import os
+from flask_apscheduler import APScheduler
 
 app = Flask(__name__)
 
 status1 = [{"status": "想你", "time": 0}]
 status2 = [{"status": "想你", "time": 0}]
+with open('status1.json', 'w') as f:
+    json.dump(status1, f)
+with open('status2.json', 'w') as f:
+    json.dump(status2, f)
 
 @app.route("/uploadPhoto", methods=["POST"])
 def upload_photo():
@@ -54,10 +59,14 @@ def get_photo():
 
 @app.route("/getStatus1")
 def get_status1():
+    with open('status1.json', 'r') as f:
+        status1=json.load(f)
     return json.dumps(status1,ensure_ascii=False)
 
 @app.route("/getStatus2")
 def get_status2():
+    with open('status2.json', 'r') as f:
+        status2=json.load(f)
     return json.dumps(status2,ensure_ascii=False)
 
 @app.route("/setStatus", methods=["POST"])
@@ -68,21 +77,43 @@ def set_status():
 
     if id == "1":
         status1.append({"status": status, "time": int(time)})
+        with open('status1.json', 'w') as f:
+            json.dump(status1, f)
         return json.dumps(status1,ensure_ascii=False)
     elif id == "2":
         status2.append({"status": status, "time": int(time)})
+        with open('status2.json', 'w') as f:
+            json.dump(status2, f)
         return json.dumps(status2,ensure_ascii=False)
     else:
         return "Invalid id"
-@app.before_request
+
+class Config(object):
+    JOBS = [
+        {
+            'id': 'job1',
+            'func': 'server:reset_statuses',
+            'trigger': 'cron',
+            'day': '*',
+            'hour': '0',
+            'minute': '0',
+            'second': '0'
+        }
+    ]
+    SCHEDULER_API_ENABLED = True
+    
 def reset_statuses():
-    # 获取当前时间
-    current_time = datetime.datetime.now()
-    # 判断当前时间是否是每天的0点
-    if current_time.hour == 0 and current_time.minute == 0:
-        status1 = [{"status": "想你", "time": 0}]
-        status2 = [{"status": "想你", "time": 0}]
+    status1 = [{"status": "想你", "time": 0}]
+    status2 = [{"status": "想你", "time": 0}]
+    with open('status1.json', 'w') as f:
+        json.dump(status1, f)
+    with open('status2.json', 'w') as f:
+        json.dump(status2, f)
 
 
 if __name__ == "__main__":
-    app.run(port=7002)
+    app.config.from_object(Config())
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
+    app.run(host="0.0.0.0",port=7002)
