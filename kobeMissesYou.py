@@ -14,7 +14,7 @@ class MyWidget(QWidget):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon("res/miss.png"))
         self.tray_icon.setVisible(True)
-        self.role=2 #1是小埋，2是坤坤
+        self.role=1 #1是小埋，2是坤坤
         # 创建右键菜单
         self.tray_menu = QMenu()
         if self.role==1:
@@ -40,6 +40,9 @@ class MyWidget(QWidget):
         self.tray_menu.addSeparator()
         self.tray_icon.setContextMenu(self.tray_menu)
         self.screen_width = QDesktopWidget().screenGeometry().width()
+        self.timer_update_state=QTimer()
+        self.timer_update_state.timeout.connect(self.update_state)
+        self.timer_update_state.start(60000)
         self.status1=[]
         self.status2=[]
 
@@ -49,6 +52,12 @@ class MyWidget(QWidget):
         self.upload_action.triggered.connect(self.on_upload_triggered)
         self.delete_action.triggered.connect(self.on_delete_triggered)
 
+    def update_state(self):
+        print('updated')
+        if self.role==1:
+            self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
+        else:
+            self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
     def showEvent(self, event):
         self.move(self.screen_width - self.frameGeometry().width(), 10)
 
