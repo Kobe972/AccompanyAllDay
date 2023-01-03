@@ -53,11 +53,13 @@ class MyWidget(QWidget):
         self.delete_action.triggered.connect(self.on_delete_triggered)
 
     def update_state(self):
-        print('updated')
-        if self.role==1:
-            self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
-        else:
-            self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
+        try:
+            if self.role==1:
+                self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
+            else:
+                self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
+        except:
+            pass
     def showEvent(self, event):
         self.move(self.screen_width - self.frameGeometry().width(), 10)
 
