@@ -14,7 +14,7 @@ class MyWidget(QWidget):
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QIcon("res/miss.png"))
         self.tray_icon.setVisible(True)
-        self.role=1 #1是小埋，2是坤坤
+        self.role=2 #1是小埋，2是坤坤
         # 创建右键菜单
         self.tray_menu = QMenu()
         if self.role==1:
@@ -103,7 +103,7 @@ class MyWidget(QWidget):
             label = QLabel()
             label.setPixmap(pixmap)
             # Create the window and set its size and visibility
-            window = QDialog()
+            window = QDialog(self, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
             window.setWindowTitle(action.text()+"的照片")
             window.setFixedSize(pixmap.width(), pixmap.height())
             # Add the label to the window and show the window
@@ -200,6 +200,9 @@ class MyWidget(QWidget):
         elif self.status2[-1]["status"]=="学习":
             brush = QBrush(Qt.blue)
             painter.setBrush(brush)
+        if current_minute<self.status2[-1]["time"]:
+            self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
+            self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
         rect = QRect(100, 30+int(self.status2[-1]["time"]/2), 30, int(current_minute/2-self.status2[-1]["time"]/2))
         painter.drawRect(rect)
                 
@@ -213,7 +216,7 @@ app = QApplication(sys.argv)
 app.setWindowIcon(QIcon())
 window = MyWidget()
 window.resize(200,800)
-window.setWindowFlags(Qt.FramelessWindowHint)
+window.setWindowFlags(Qt.Tool | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
 window.setAttribute(Qt.WA_TranslucentBackground)
 window.status1=status1
 window.status2=status2
