@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">kobeMissesYou</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Photos</string>
+    <string name="spinner_prompt">我的状态</string>
+
+</resources>

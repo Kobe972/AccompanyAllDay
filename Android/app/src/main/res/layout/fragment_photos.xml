@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.photos.PhotosFragment"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:layout_margin="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_view_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小埋的照片"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/image_comb_1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <RelativeLayout
+                android:id="@+id/image_comb_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/text_view_1"
+                app:layout_constraintBottom_toTopOf="@id/text_view_2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                >
+
+                <ImageView
+                    android:id="@+id/image_view_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <Button
+                    android:id="@+id/button_delete_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#00000000"
+                    android:textColor="#ff0000"
+                    android:text="删除"
+                    />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/text_view_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="坤坤的照片"
+                app:layout_constraintTop_toBottomOf="@id/image_comb_1"
+                app:layout_constraintBottom_toTopOf="@id/image_comb_2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <RelativeLayout
+                android:id="@+id/image_comb_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/text_view_2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1">
+
+
+                <ImageView
+                    android:id="@+id/image_view_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+                <Button
+                    android:id="@+id/button_delete_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#00000000"
+                    android:textColor="#ff0000"
+                    android:text="删除"
+                    />
+            </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
