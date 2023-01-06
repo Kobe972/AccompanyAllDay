@@ -54,10 +54,8 @@ class MyWidget(QWidget):
 
     def update_state(self):
         try:
-            if self.role==1:
-                self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
-            else:
-                self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
+            self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
+            self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
         except:
             pass
     def showEvent(self, event):
@@ -211,7 +209,7 @@ class MyWidget(QWidget):
         elif self.status2[-1]["status"]=="学习":
             brush = QBrush(Qt.blue)
             painter.setBrush(brush)
-        if current_minute<self.status2[-1]["time"]:
+        if current_minute<self.status1[-1]["time"] or current_minute<self.status2[-1]["time"]:
             self.status1=json.loads(requests.get('http://47.108.160.172:7002/getStatus1',proxies={}).text)
             self.status2=json.loads(requests.get('http://47.108.160.172:7002/getStatus2',proxies={}).text)
         rect = QRect(100, 30+int(self.status2[-1]["time"]/2), 30, int(current_minute/2-self.status2[-1]["time"]/2))
