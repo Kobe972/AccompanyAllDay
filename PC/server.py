@@ -95,20 +95,20 @@ class Config(object):
             'func': 'server:reset_statuses',
             'trigger': 'cron',
             'day': '*',
-            'hour': '0',
-            'minute': '0',
-            'second': '0'
+            'hour': '23',
+            'minute': '59',
+            'second': '59'
         }
     ]
     SCHEDULER_API_ENABLED = True
-    
+
 def reset_statuses():
     status1 = [{"status": "想你", "time": 0}]
     status2 = [{"status": "想你", "time": 0}]
-    with open('status1.json', 'w') as f:
-        json.dump(status1, f)
-    with open('status2.json', 'w') as f:
-        json.dump(status2, f)
+    with open('status1.json', 'w') as f1:
+        json.dump(status1, f1)
+    with open('status2.json', 'w') as f2:
+        json.dump(status2, f2)
 
 
 if __name__ == "__main__":
