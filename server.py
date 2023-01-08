@@ -59,18 +59,22 @@ def get_photo():
 
 @app.route("/getStatus1")
 def get_status1():
+    global status1
     with open('status1.json', 'r') as f:
         status1=json.load(f)
     return json.dumps(status1,ensure_ascii=False)
 
 @app.route("/getStatus2")
 def get_status2():
+    global status2
     with open('status2.json', 'r') as f:
         status2=json.load(f)
     return json.dumps(status2,ensure_ascii=False)
 
 @app.route("/setStatus", methods=["POST"])
 def set_status():
+    get_status1()
+    get_status2()
     id = request.form.get("id")
     status = request.form.get("status")
     time = request.form.get("time")
@@ -101,7 +105,7 @@ class Config(object):
         }
     ]
     SCHEDULER_API_ENABLED = True
-
+    
 def reset_statuses():
     status1 = [{"status": "想你", "time": 0}]
     status2 = [{"status": "想你", "time": 0}]
