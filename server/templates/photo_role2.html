@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>anlaiggMissesYou</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </style>
+   </head>
+   <body>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/kobe">坤坤</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/kobe">主页</a></li>
+                    <li class="active"><a href="/photos?id=2">照片</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1 align="center">照片墙</h1>
+    <br />
+    <br />
+    <br />
+    <h2>小埋的照片</h2>
+    <div>
+        <img class="img-responsive" id="img1" src="/getPhoto?id=1"  max-width: 100%; width: auto; height: auto;/>
+    </div>
+    <h2>坤坤的照片</h2>
+    <div>
+        <img class="img-responsive" id="img2" src="/getPhoto?id=2"  max-width: 100%; width: auto; height: auto;/>
+    </div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">上传</button>
+    <button type="button" class="btn btn-danger">删除</button>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">上传图片</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="fileInput">选择图片</label>
+                            <input type="file" class="form-control-file" id="fileInput" name="file" accept="image/*" onchange="previewFile()">
+                            <input type="hidden" name="id" value="2"/>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <img src="" id="preview" class="img-thumbnail" alt="预览图片" style="display:none;">
+                    </div>
+                </div>                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadFile()">提交更改</button>
+                </div>             
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script>
+        function uploadFile() {
+            var formData = new FormData($("#uploadForm")[0]);
+            $.ajax({
+                url: '/uploadPhoto',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    if(returndata=='Success')
+                        alert('上传成功！');
+                    else
+                        alert('上传失败！');
+                    window.location.href = '/photos?id=2';
+                },
+                error: function (returndata) {
+                    alert('上传失败！');
+                    window.location.href = '/photos?id=2';
+                }
+            });
+        }
+    </script>
+    <script>
+        function previewFile() {
+            var preview = document.getElementById('preview');
+            var file    = document.getElementById('fileInput').files[0];
+            var reader  = new FileReader();
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+            if (file) {
+                preview.style.display = 'block';
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+    <script>
+        $('.btn-danger').click(function () {
+          if (confirm("删除图片？")) {
+            $.post('/deletePhoto',
+            {
+              id:"2"
+            },
+            function(data,status){
+                location.reload();
+            });
+          }
+        });
+    </script>
+    <script>
+        $('#img1').error(function () {
+          if (!$(this).next().hasClass('alert-danger')) {
+            $(this).parent().append('<div class="alert alert-danger">图片未上传或加载失败</div>');
+          }
+          $(this).hide();
+        });
+        $('#img2').error(function () {
+          if (!$(this).next().hasClass('alert-danger')) {
+            $(this).parent().append('<div class="alert alert-danger">图片未上传或加载失败</div>');
+          }
+          $(this).hide();
+          $('.btn-danger').hide();
+        });
+    </script>          
+   </body>
+</html>

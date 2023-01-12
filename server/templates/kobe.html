@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>anlaiggMissesYou</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </style>
+   </head>
+   <body>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/kobe">坤坤</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/kobe">状态</a></li>
+                    <li><a href="/photos?id=2">照片</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1 align="center">你好，坤坤!</h1>
+    <br />
+    <br />
+    <br />
+    <h2 id="other_state" align="center"></h2>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h3 id="my_state" align="center">我的状态：</h3>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="dropdown"  align="center">
+        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">切换状态
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1">学习</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1">想你</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1">娱乐</a>
+            </li>
+        </ul>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $.get("/getStatus1",
+            function(data,status){
+                data=$.parseJSON(data);
+                var time=data[data.length-1]["time"];
+                var hours=parseInt(time/60);
+                var minutes=time%60;
+                if(hours<10) hours='0'+hours;
+                if(minutes<10) minutes='0'+minutes;
+                $('#other_state').text('小埋在'+hours+':'+minutes+'开始'+data[data.length-1]["status"])
+            })
+            $.get("/getStatus2",
+            function(data,status){
+                data=$.parseJSON(data);
+                $('#my_state').text('我的状态：'+data[data.length-1]["status"]);
+            })
+
+        })
+        $('.dropdown-menu a').click(function(){
+            var status=this.text;
+            var date=new Date();
+            var hours=date.getHours();
+            var minutes=date.getMinutes();
+            var time=hours*60+minutes;
+            $.post("/setStatus",
+            {
+                id:"2",
+                status:status,
+                time:time
+            },
+            function(data,status){
+                data=$.parseJSON(data);
+                $('#my_state').text('我的状态：'+data[data.length-1]["status"]);
+            })
+            $.get("/getStatus1",
+            function(data,status){
+                data=$.parseJSON(data);
+                var time=data[data.length-1]["time"];
+                var hours=time/60;
+                var minutes=time%60;
+                if(hours<10) hours='0'+hours;
+                if(minutes<10) minutes='0'+minutes;
+                $('#other_state').text('小埋在'+hours+':'+minutes+'开始'+data[data.length-1]["status"])
+            })
+        })
+    </script>
+   </body>
+</html>

@@ -14,6 +14,18 @@ with open('status1.json', 'w') as f:
 with open('status2.json', 'w') as f:
     json.dump(status2, f)
 
+@app.route("/kobe",methods=["GET"])
+def kobe():
+    return render_template("kobe.html")
+@app.route("/anlaigg",methods=["GET"])
+def anlaigg():
+    return render_template("anlaigg.html")
+@app.route("/photos",methods=["GET"])
+def photos():
+    if request.args.get("id")=='1':
+        return render_template("photo_role1.html")
+    else:
+        return render_template("photo_role2.html")
 @app.route("/uploadPhoto", methods=["POST"])
 def upload_photo():
     id = request.form.get("id")
